@@ -10,6 +10,14 @@ import { createBitChordAuth } from './bitchord-addon-auth.mjs';
 
 const config = loadConfig();
 const app = Fastify({ logger: { redact: ['req.headers.authorization', 'req.headers.cookie', '*.url'] } });
+const authHost =
+  process.env.BITCHORD_AUTH_HOST ??
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+  'localhost';
+
+const bitChordAuth = createBitChordAuth({
+  hosts: [authHost],
+});
 
 const manifests = {
   root: { id: 'com.bitchord.qobuz', name: 'Qobuz', version: '1.0.0' },
