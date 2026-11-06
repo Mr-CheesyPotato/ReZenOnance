@@ -18,6 +18,20 @@ const authHost =
 const bitChordAuth = createBitChordAuth({
   hosts: [authHost],
 });
+async function requireBitChordAuth(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await bitChordAuth.verifyRequest(request);
+
+  if (!result.ok) {
+    const denied = bitChordAuth.rejection(result);
+    return reply
+      .code(denied.status)
+      .headers(denied.headers)
+      .send(denied.body);
+  }
+}
 
 const manifests = {
   root: { id: 'com.bitchord.qobuz', name: 'Qobuz', version: '1.0.0' },
