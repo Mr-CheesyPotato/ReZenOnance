@@ -45,7 +45,10 @@ function registerAddon(prefix: string, provider: QobuzProvider, manifest: { id: 
   const route = (path: string): string => `${prefix}${path}` || '/';
 
   app.get(route('/manifest.json'), async (_request, reply) => reply.header('Cache-Control', 'public, max-age=3600, s-maxage=86400').send({
-    ...manifest, resources: ['search', 'stream'], allowDownloads: 0,
+    ...manifest,
+resources: ['search', 'stream'],
+allowDownloads: 0,
+bitchordAuth: true,
     settings: [{ key: 'quality', type: 'select', default: 'lossless', options: [
       { label: 'Lossless', value: 'lossless' }, { label: 'High', value: 'high' }, { label: 'Low', value: 'low' },
     ] }],
