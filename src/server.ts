@@ -68,7 +68,10 @@ bitchordAuth: true,
     ] }],
   }));
 
-  app.get<{ Querystring: { q?: string; quality?: string; atmos?: string } }>(route('/search'), async (request, reply) => {
+  app.get<{ Querystring: { q?: string; quality?: string; atmos?: string } }>(
+  route('/search'),
+  { preHandler: requireBitChordAuth },
+  async (request, reply) => {
     const query = request.query.q?.trim();
     if (!query) throw badRequest('q is required');
     const quality = parseQuality(request.query.quality);
@@ -89,7 +92,10 @@ bitchordAuth: true,
     }
   });
 
-  app.get<{ Params: { id: string }; Querystring: { quality?: string; atmos?: string } }>(route('/stream/:id'), async (request, reply) => {
+  app.get<{ Params: { id: string }; Querystring: { quality?: string; atmos?: string } }>(
+  route('/stream/:id'),
+  { preHandler: requireBitChordAuth },
+  async (request, reply) => {
     const quality = parseQuality(request.query.quality);
     const atmos = request.query.atmos ?? 'auto';
     const id = request.params.id;
