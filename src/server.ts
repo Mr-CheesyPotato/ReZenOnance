@@ -6,6 +6,7 @@ import { AppError, badRequest, notFound } from './errors.js';
 import { normalizeTrack, streamResponse, upstreamIdFromPublicId } from './normalize.js';
 import { createProvider, createSourceProvider, type IsolatedSource } from './providers/index.js';
 import type { QobuzProvider, Quality, PublicTrack } from './types.js';
+import { createBitChordAuth } from './bitchord-addon-auth.mjs';
 
 const config = loadConfig();
 const app = Fastify({ logger: { redact: ['req.headers.authorization', 'req.headers.cookie', '*.url'] } });
